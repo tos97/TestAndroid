@@ -1,6 +1,6 @@
 package it.tosiani.utility;
 
-import it.tosiani.driver.ManagmentDriver;
+import it.tosiani.drivers.ManagmentDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
