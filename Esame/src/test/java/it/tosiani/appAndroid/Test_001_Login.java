@@ -58,7 +58,7 @@ public class Test_001_Login {
     @DisplayName("Test Login Errate")
     @CsvSource({"user,",",user",",","admin,user"})
     @Tag("Login")
-    void Test_001_Errori(String utente,String pwd,TestInfo testInfo) throws InterruptedException {
+    void Test_001_Error(String utente,String pwd,TestInfo testInfo) throws InterruptedException {
         extentTest = extentReports.startTest(testInfo.getDisplayName());
         extentTest.log(LogStatus.INFO, "Apertura App per controllare se scrivendo cose errate nella login appare il messaggio di errore", "");
         step.login(utente,pwd);
@@ -79,7 +79,7 @@ public class Test_001_Login {
     @DisplayName("Test Login corretta")
     @CsvSource({"admin,admin","user,user"})
     @Tag("Login")
-    void Test_002_Corretta(String utente,String pwd,TestInfo testInfo) throws InterruptedException {
+    void Test_002_Correct(String utente,String pwd,TestInfo testInfo) throws InterruptedException {
         extentTest = extentReports.startTest(testInfo.getDisplayName());
         extentTest.log(LogStatus.INFO, "Apertura App con controllo se con credenziali esatte entra nella home", "");
         step.login(utente,pwd);
