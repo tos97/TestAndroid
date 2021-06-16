@@ -18,6 +18,11 @@ import static it.tosiani.utility.GlobalParameters.*;
 
 public class Utils {
 
+    /**
+     * Serve per poter leggere dai file .properties
+     * @param propNome nome del file da cui leggere
+     * @return
+     */
     public static Properties loadProp(String propNome){
         Properties properties = new Properties();
         try{
@@ -29,6 +34,9 @@ public class Utils {
         return properties;
     }
 
+    /**
+     * Fa gli screen per errori creati in questa pagina
+     */
     public static void getScreenshot(){
         try {
             SimpleDateFormat dta = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -41,6 +49,10 @@ public class Utils {
         }
     }
 
+    /**
+     * fa screen di quello richiesto e li salva nell'apposita cartella
+     * @return ritorna del base64 dello screen da poter allegare in report
+     */
     public static String getScreenBase64Android(){
         String img = null;
         Base64 base64 = new Base64();

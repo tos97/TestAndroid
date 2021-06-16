@@ -12,6 +12,10 @@ import static it.tosiani.utility.GlobalParameters.SERVER_APPIUM;
 public class ManagmentDriver {
     private static AndroidDriver<?> androidDriver;
 
+    /**
+     * Start Android driver
+     * @param desiredCapabilities opzioni di funzionamento del driver
+     */
     public static void startAndroidDriver(DesiredCapabilities desiredCapabilities){
         try{
             androidDriver = new AndroidDriver<MobileElement>(new URL(SERVER_APPIUM), desiredCapabilities);
@@ -20,10 +24,16 @@ public class ManagmentDriver {
         }
     }
 
+    /**
+     * @return serve per restituire il driver creato in questa classe
+     */
     public static AndroidDriver<?> getAndroidDriver(){
         return androidDriver;
     }
 
+    /**
+     * Termina l'esecuzione del driver
+     */
     public static void stopDriver(){
             androidDriver.quit();
     }

@@ -94,9 +94,9 @@ public class Test_002_Home {
         Thread.sleep(1000);
         if (nomeUtente.length() == 0){
             try {
-                if (androidDriver.findElement(By.id(prop.getProperty("btn.accettazione"))).isDisplayed()) {
+                if (androidDriver.findElement(By.id(prop.getProperty("id.btn.accettazione"))).isDisplayed()) {
                     extentTest.log(LogStatus.PASS, "Comparso messaggio di Errore quando nome è vuoto", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
-                    androidDriver.findElement(By.id(prop.getProperty("btn.accettazione"))).click();
+                    androidDriver.findElement(By.id(prop.getProperty("id.btn.accettazione"))).click();
                     Thread.sleep(1000);
                     androidDriver.findElement(By.id(prop.getProperty("id.annull.add"))).click();
                 }
@@ -128,18 +128,75 @@ public class Test_002_Home {
         extentTest.log(LogStatus.INFO, "Controllo della funzionalità per rimuovere tutti gli utenti dalla lista", "");
         Thread.sleep(1000);
         extentTest.log(LogStatus.INFO, "Screen prima del test", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
-        step.removeAll();
-        // cè il 2 perché tra l'elemtento preso in considerazione con il findelement per la lista di nomi comprende anche
-        //la barra di benvenuto e i bottoni
-        if (step.totaleNomi() == 2)
-            extentTest.log(LogStatus.PASS, "Test del tasto funzionante, screen della lista vuota", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
-        else{
-            extentTest.log(LogStatus.FAIL, "Test del tasto non passato, screen della lista non vuota", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+        if(step.removeAll()){
+            extentTest.log(LogStatus.INFO, "Comparso banner per richiesta di accettazione rimozione", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+            step.accettazione();
+            // cè il 2 perché tra l'elemtento preso in considerazione con il findelement per la lista di nomi comprende anche
+            //la barra di benvenuto e i bottoni
+            if (step.totaleNomi() == 2)
+                extentTest.log(LogStatus.PASS, "Test del tasto funzionante, screen della lista vuota", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+            else{
+                extentTest.log(LogStatus.FAIL, "Test del tasto non passato, screen della lista non vuota", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+                fail();
+            }
+        } else{
+            extentTest.log(LogStatus.FAIL, "Test del tasto non passato, non è comparso il banner dell'accettazione dell'eliminazione", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
             fail();
         }
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("Test funzione Error")
+    @Tag("Home")
+    void Test_004_ErrorBtn(TestInfo testInfo) throws InterruptedException {
+        extentTest = extentReports.startTest(testInfo.getDisplayName());
+        extentTest.log(LogStatus.INFO, "Controllo della funzionalità per aggiungere una linea vuota alla lista dei nomi", "");
+        Thread.sleep(1000);
+        extentTest.log(LogStatus.INFO, "Screen prima del test", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+        int totale = step.totaleNomi();
+        androidDriver.findElement(By.id(prop.getProperty("id.btn.error"))).click();
+        if (totale < step.totaleNomi()){
+            if (!step.controlloNomi("",step.totaleNomi()))
+                extentTest.log(LogStatus.PASS, "Test passato elemento vuoto aggiunto", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+            else{
+                extentTest.log(LogStatus.FAIL, "Test non passato elemento aggiunto non vuoto", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+                fail();
+            }
+        } else{
+            extentTest.log(LogStatus.FAIL, "Test non passato elemento vuoto non aggiunto", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+            fail();
+        }
+    }
 
+    @Test
+    @Order(5)
+    @DisplayName("Test Salvataggio modifiche")
+    @Tag("Home")
+    void Test_005_Save(TestInfo testInfo) throws InterruptedException {
+        extentTest = extentReports.startTest(testInfo.getDisplayName());
+        extentTest.log(LogStatus.INFO, "Controllo per verificare se dopo qualche modifica apportata dopo la login di un utente uscendo e rientrando tali modifiche restino invariate oppure non vengano salvate", "");
+        Thread.sleep(1000);
+        extentTest.log(LogStatus.INFO, "Screen prima del test", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+        int totale1 = step.totaleNomi();
+        step.removeAll();
+        step.accettazione();
+        Thread.sleep(1000);
+        step.aggiungiUtente("Pippo");
+        Thread.sleep(1000);
+        extentTest.log(LogStatus.INFO, "Screen delle modifiche apportate", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+        int totale2 = step.totaleNomi();
+        androidDriver.navigate().back();
+        Thread.sleep(1000);
+        step.login(credenziali,credenziali);
+        Thread.sleep(1000);
+        if(step.totaleNomi() == totale1)
+            extentTest.log(LogStatus.PASS, "Test passato uscendo e rientrando non vengono salvate le modifiche quindi non ci sono rischi", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+        if(step.totaleNomi() == totale2){
+            extentTest.log(LogStatus.FAIL, "Test non passato uscendo e rientrando vengono salvate le modifiche quindi ci potrebbero essere errori se in più usano la stessa app", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
+            fail();
+        }
+    }
 
 
     @AfterEach

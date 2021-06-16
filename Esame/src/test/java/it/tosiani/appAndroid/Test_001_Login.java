@@ -64,9 +64,9 @@ public class Test_001_Login {
         step.login(utente,pwd);
         Thread.sleep(1000);
         try {
-            if (androidDriver.findElement(By.id(prop.getProperty("btn.accettazione"))).isDisplayed()) {
+            if (androidDriver.findElement(By.id(prop.getProperty("id.btn.accettazione"))).isDisplayed()) {
                 extentTest.log(LogStatus.PASS, "Comparso messaggio di errore: '"+androidDriver.findElement(By.id(prop.getProperty("error.message"))).getText()+"' con inserimento di utente: '"+utente+"' e password: "+pwd+"'",extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
-                androidDriver.findElement(By.id(prop.getProperty("btn.accettazione"))).click();
+                androidDriver.findElement(By.id(prop.getProperty("id.btn.accettazione"))).click();
             }
         } catch (NoSuchElementException e){
             extentTest.log(LogStatus.FAIL, "Non è comparso il messaggio di errore desiderato oppure tasto reset non funzionante",extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
@@ -107,7 +107,7 @@ public class Test_001_Login {
         androidDriver.findElement(By.id(prop.getProperty("id.pwd"))).sendKeys(pwd);
         Thread.sleep(1000);
         extentTest.log(LogStatus.PASS, "screen prima di premere pulsante",extentTest.addBase64ScreenShot(Utils.getScreenBase64Android()));
-        androidDriver.findElement(By.id(prop.getProperty("btn.reset"))).click();
+        androidDriver.findElement(By.id(prop.getProperty("id.btn.reset"))).click();
         Thread.sleep(1000);
         if (androidDriver.findElement(By.id(prop.getProperty("id.username"))).getText().length() != utente.length()
         && androidDriver.findElement(By.id(prop.getProperty("id.pwd"))).getText().length() != pwd.length()) {
