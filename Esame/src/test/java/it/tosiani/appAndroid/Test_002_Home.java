@@ -35,7 +35,7 @@ public class Test_002_Home {
 
     @BeforeAll
     static void beforeAll(){
-        extentReports = new ExtentReports(REPORT_PATH + File.separator + "reportAndroidApp" + EXT_HTML, true);
+        extentReports = new ExtentReports(REPORT_PATH + File.separator + "reportAndroidApp" + EXT_HTML, false);
         extentReports.loadConfig(new File(REPORT_CONFIG_XML));
 
         desiredCapabilities = new DesiredCapabilities();
@@ -197,6 +197,8 @@ public class Test_002_Home {
             fail();
         }
     }
+
+
 
 
     @AfterEach

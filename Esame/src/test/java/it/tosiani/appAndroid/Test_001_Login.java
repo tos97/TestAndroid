@@ -34,7 +34,7 @@ public class Test_001_Login {
 
     @BeforeAll
     static void beforeAll(){
-        extentReports = new ExtentReports(REPORT_PATH + File.separator + "reportAndroidApp" + EXT_HTML, false);
+        extentReports = new ExtentReports(REPORT_PATH + File.separator + "reportAndroidApp" + EXT_HTML, true);
         extentReports.loadConfig(new File(REPORT_CONFIG_XML));
 
         desiredCapabilities = new DesiredCapabilities();
